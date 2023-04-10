@@ -63,7 +63,7 @@ class Adapter:
         atexit.register(self.close)
 
     @staticmethod
-    def serialize_set(a_set: set | None) -> str | None:
+    def serialize_set(a_set: set) -> str:
         """Serialize the given set (or string) to a string.
 
         This will convert a given set {'a', 'b', 'c'} to the string: "set(['a','b','c'])"
@@ -80,7 +80,7 @@ class Adapter:
             raise TypeError("serialize_set(): a_set must be a set")
         return f"set({json.dumps(list([item for item in a_set]))})"
 
-    def deserialize_set(self, a_set_str: str | None) -> set | None:
+    def deserialize_set(self, a_set_str: str) -> set:
         """Deserialize the given string to a set.
 
         This will convert a given "set(['a','b','c'])" string to the set {'a', 'b', 'c'}
