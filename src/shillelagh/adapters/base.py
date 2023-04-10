@@ -64,12 +64,15 @@ class Adapter:
 
     @staticmethod
     def serialize_set(a_set: Any) -> Any:
-        """Serialize the given set (or string) to a string.
+        """Serialize the given set to a string.
 
         This will convert a given set {'a', 'b', 'c'} to the string: "set(['a','b','c'])"
 
         Args:
             a_set (Any): A set (of strings) or None.
+
+        Raises:
+            TypeError: If anything but a set or None is given to this method.
 
         Returns:
             Any: A string representation of the set or None.
