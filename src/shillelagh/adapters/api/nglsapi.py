@@ -83,7 +83,7 @@ class NglsAPI(Adapter):
             data = result.get('data', [])
 
         _logger.info(f'Got {len(data)} rows for {self.table}')
-        for record in result.get('data'):
+        for record in data:
             # replace with -> row = {column: record[column] for column in self.get_columns()}
             # if columns are ordered
             row = {}
