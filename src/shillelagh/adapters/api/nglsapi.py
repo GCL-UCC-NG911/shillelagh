@@ -72,9 +72,9 @@ class NglsAPI(Adapter):
         # https://shillelagh.readthedocs.io/en/latest/development.html#creating-a-custom-sqlalchemy-dialect
         _logger.info(f"get_data for {self.table}: ({bounds}, {order}, {kwargs})")
         if self.table == "intervals":
-            data = ["hour", "day", "month"]
+            data = [["hour"], ["day"], ["month"]]
         elif self.table == "abandoned_tags":
-            data = ["included", "excluded", "only"]
+            data = [["included"], ["excluded"], ["only"]]
         else:
             params = self.set_params(bounds)
             result = self.nglsreports.get(self.table, params)

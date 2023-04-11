@@ -38,7 +38,8 @@ print(inspector.get_table_names())
 
 print("get data")
 with engine.connect() as connection:
-    result = connection.execute(text("SELECT * FROM busiest_hour WHERE call_type IN ('911', 'admin')"))
+    #result = connection.execute(text("SELECT * FROM busiest_hour WHERE call_type IN ('911', 'admin')"))
+    result = connection.execute(text("SELECT * FROM busiest_hour"))
     for row in result:
         print(row)
 
