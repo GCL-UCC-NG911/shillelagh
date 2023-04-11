@@ -71,12 +71,17 @@ class NglsAPI(Adapter):
     ) -> Iterator[Row]:
         # https://shillelagh.readthedocs.io/en/latest/development.html#creating-a-custom-sqlalchemy-dialect
         _logger.info(f"get_data for {self.table}: ({bounds}, {order}, {kwargs})")
-        params = self.set_params(bounds)
-        result = self.nglsreports.get(self.table, params)
-        if not result:
-            raise InternalError("Error while getting data from ngls-reporting service")
+        if self.table == "intervals":
+            data = ["hour", "day", "month"]
+        elif self.table == "abandoned_tags":
+            data = ["included", "excluded", "only"]
+        else:
+            params = self.set_params(bounds)
+            result = self.nglsreports.get(self.table, params)
+            if not result:
+                raise InternalError("Error while getting data from ngls-reporting service")
+            data = result.get('data', [])
 
-        data = result.get('data', [])
         _logger.info(f'Got {len(data)} rows for {self.table}')
         for record in result.get('data'):
             # replace with -> row = {column: record[column] for column in self.get_columns()}
