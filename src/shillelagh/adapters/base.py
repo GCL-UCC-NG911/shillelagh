@@ -98,7 +98,7 @@ class Adapter:
 
         Returns:
             Any: The deserialized list as a set if the input was a previously serialized set.
-            Otherwise the string (or None) is simply returned.
+            A string entry is also converted to a single entry set.
         """
         if a_set_str is None:
             return None
