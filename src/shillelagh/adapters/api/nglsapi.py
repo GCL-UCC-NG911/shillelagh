@@ -121,7 +121,7 @@ class NglsAPI(Adapter):
             )
             for x in self.nglsreports.get_columns(self.table)
             if x.get("predicate")
-                ]:
+        ]:
             predicate = bounds.get(col_name)
             if predicate and params:
                 for param, key in params.items():
