@@ -57,12 +57,6 @@ class NglsReports:
         self.columns_dicts = {}
         self.table_ids = {}
 
-    def _text_to_string_field(self, tablename: str, col_name: str) -> String:
-        if (col_name in ('interval', 'abandoned_tag') or
-                (tablename in ('busiest_hour', 'call_duration') and col_name in ('call_type'))):
-            return String(filters=[Equal, Like, NotEqual], order=Order.ANY, exact=True)
-        return String()
-
     def get_table_names(self):
         try:
             headers = {'X-NGLS-API-Key': self.api_key}
