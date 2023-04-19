@@ -116,8 +116,8 @@ class NglsAPI(Adapter):
             (
                 x.get('column_name'),
                 x.get('type'),
-                x.get("predicate", {}).get("params", {}),
-                x.get("predicate", {}).get("default", {})
+                x.get("predicate").get("params", {}),
+                x.get("predicate").get("default", {})
             )
             for x in self.nglsreports.get_columns(self.table)
             if x.get("predicate")
