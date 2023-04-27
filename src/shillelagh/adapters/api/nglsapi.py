@@ -82,7 +82,7 @@ class NglsAPI(Adapter):
         elif self.table == "call_types":
             data = [["911"], ["10-digit"], ["admin"], ["consultation"]]
         elif self.table == "seq_nrs":
-            data = [[x] for x in range(1, 1001)]
+            data = [[str(x).zfill(4)] for x in range(1, 1001)]
         else:
             params = self.set_params(bounds)
             result = self.nglsreports.get(self.table, params)
