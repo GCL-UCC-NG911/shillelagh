@@ -91,6 +91,10 @@ class NglsReports:
         self.table_names.append("call_types")
         self.columns["call_types"] = [{'column_name': 'call_type', 'name': 'Call Types', 'type': 'TEXT', 'field': {'class': 'String'}}]
         self.columns_dicts["call_types"] = None
+        # add hard-coded table for sequence numbers.
+        self.table_names.append("seq_nrs")
+        self.columns["seq_nrs"] = [{'column_name': 'seq_nr', 'name': 'Sequence Numbers', 'type': 'INTEGER', 'field': {'class': 'Integer'}}]
+        self.columns_dicts["seq_nrs"] = None
         _logger.info(f"table_names={self.table_names}")
 
     def has_table_name(self, tablename):

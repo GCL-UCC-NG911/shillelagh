@@ -264,7 +264,7 @@ class Field(Generic[Internal, External]):
 class Integer(Field[int, int]):
     """An integer."""
 
-    type = "INT"
+    type = "INTEGER"
     db_api_type = "NUMBER"
 
 
