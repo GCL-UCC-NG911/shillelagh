@@ -107,7 +107,7 @@ class NglsAPI(Adapter):
             # replace with -> row = {column: record[column] for column in self.get_columns()}
             # if columns are ordered
             row = {}
-            for i, column in enumerate(self.nglsreports.get_columns(self.table)):
+            for i, column in enumerate(self.nglsreports.get_original_columns(self.table)):
                 if column["type"] == "TIMESTAMP":
                     row[column["column_name"]] = dateutil.parser.parse(record[i])
                 else:

@@ -95,6 +95,7 @@ class NglsReports:
             .set_index("table_name")
             .T.to_dict("records")[0],
         )
+        columns = self.createTimezone(columns)
         self.columns = columns
         reports_df["columns_dict"] = None
         columns_dicts = dict(
@@ -209,6 +210,60 @@ class NglsReports:
         """Return the columns of the a requested report."""
         return self.columns[tablename] if self.has_table_name(tablename) else []
 
+    def get_original_columns(self, tablename):
+        """Return the columns of the a requested report."""
+        if self.has_table_name(tablename):
+            if self.hasTimezone(tablename):
+                columns = self.columns[tablename]
+                remove_column = []
+                for column in columns:
+                    if column["column_name"] == "timezone":
+                        remove_column = column
+                if remove_column:
+                    columns.remove(remove_column)
+            return columns
+        return []
+
+    def hasTimezone(self, tablename):
+        """Return true if this table has timezone parameter."""
+        if(
+            tablename == "abandoned_calls" or
+            tablename == "agent_ring_time" or
+            tablename == "busiest_hours" or
+            tablename == "call_per_hour" or
+            tablename == "call_summary" or
+            tablename == "calls_by_carrier" or
+            tablename == "call_transfer" or
+            tablename == "psap_ring_time" or
+            tablename == "psap_queue_time" or
+            tablename == "psap_answer_time" or
+            tablename == "psap_position_answered" or
+            tablename == "sip_error_report" or
+            tablename == "total_calls_by_type_and_cos"
+        ):
+            return True
+        return False
+
+    def createTimezone(self, columns) -> Dict:
+        """Add timezone column in tables."""
+        for tablename in columns:
+            if self.hasTimezone(tablename):
+                columns[tablename].append(
+                    {
+                        "column_name": "timezone",
+                        "name": "Timezone",
+                        "type": "INTEGER",
+                        "field": {"class": "Integer"},
+                        "predicate": {
+                            "default": {},
+                            "params": {
+                                "timezone": 0,
+                            },
+                        },
+                    },
+                )
+        return columns
+
     def get_columns_dict(self, tablename) -> Dict[str, Field]:
         """Return the columns of the a requested report."""
         if not self.has_table_name(tablename):
@@ -222,11 +277,18 @@ class NglsReports:
                 filters = (
                     [FILTER_NAME_TO_FILTER[x] for x in filters] if filters else None
                 )
-                columns_dict[column["column_name"]] = CLASS_NAME_TO_CLASS[class_name](
-                    filters=filters,
-                    order=field.get("order", Order.NONE),
-                    exact=field.get("exact", False),
-                )
+                if  column["column_name"] == "timezone":
+                    columns_dict[column["column_name"]] = Integer(
+                        filters=[Equal],
+                        order=Order.ANY,
+                        exact=True,
+                    )
+                else:
+                    columns_dict[column["column_name"]] = CLASS_NAME_TO_CLASS[class_name](
+                        filters=filters,
+                        order=field.get("order", Order.NONE),
+                        exact=field.get("exact", False),
+                    )
             _logger.info(f"Created columns dictionary for {tablename}")
             self.columns_dicts[tablename] = columns_dict
         return self.columns_dicts[tablename]
