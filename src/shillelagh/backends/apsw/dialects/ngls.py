@@ -213,8 +213,8 @@ class NglsReports:
     def get_original_columns(self, tablename):
         """Return the columns of the a requested report."""
         if self.has_table_name(tablename):
+            columns = self.columns[tablename]
             if self.hasTimezone(tablename):
-                columns = self.columns[tablename]
                 remove_column = []
                 for column in columns:
                     if column["column_name"] == "timezone":
