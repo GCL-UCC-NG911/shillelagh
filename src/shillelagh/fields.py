@@ -513,8 +513,8 @@ class ISODateTime(Field[str, datetime.datetime]):
 
         # if the timestamp has a timezone change it to UTC, so that
         # timestamps in different timezones can be compared as strings
-        #if value.tzinfo is not None:
-        #    value = value.astimezone(datetime.timezone.utc)
+        if value.tzinfo is not None:
+            value = value.astimezone(datetime.timezone.utc)
 
         return value.isoformat()
 
@@ -543,8 +543,8 @@ class FastISODateTime(ISODateTime):
 
         # if the timestamp has a timezone change it to UTC, so that
         # timestamps in different timezones can be compared as strings
-        #if timestamp.tzinfo is not None:
-        #    timestamp = timestamp.astimezone(datetime.timezone.utc)
+        if timestamp.tzinfo is not None:
+            timestamp = timestamp.astimezone(datetime.timezone.utc)
 
         return timestamp
 
