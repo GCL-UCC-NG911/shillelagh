@@ -176,7 +176,10 @@ class NglsReports:
         """Perform a GET request to the reporting service."""
         headers = {"X-NGLS-API-Key": self.api_key}
         url = self.url(tablename)
-        params["superset"] = "true"
+        if not params:
+            params = {"superset": "true"}
+        else:
+            params["superset"] = "true"
         _logger.info(f"Get report from NGLS: GET {url} {json.dumps(params)}")
         response = requests.get(
             url,
