@@ -67,7 +67,7 @@ class NglsReports:
         try:
             headers = {"X-NGLS-API-Key": self.api_key}
             # pylint: disable=line-too-long
-            url = f"https://{self.host}:{self.port}/{self.database}/v1/reports?all_reports=true&superset=true&use_timezone=true"
+            url = f"{self.url()}?all_reports=true&superset=true"
             response = requests.get(
                 url,
                 headers=headers,
@@ -176,6 +176,7 @@ class NglsReports:
         """Perform a GET request to the reporting service."""
         headers = {"X-NGLS-API-Key": self.api_key}
         url = self.url(tablename)
+        params["superset"] = "true"
         _logger.info(f"Get report from NGLS: GET {url} {json.dumps(params)}")
         response = requests.get(
             url,
