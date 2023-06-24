@@ -66,7 +66,8 @@ class NglsReports:
         """Get a list of all NGLS reports and populate a Pandas table."""
         try:
             headers = {"X-NGLS-API-Key": self.api_key}
-            url = f"https://{self.host}:{self.port}/{self.database}/v1/reports?all_reports=true&superset=true"  # pylint: disable=line-too-long
+            # pylint: disable=line-too-long
+            url = f"https://{self.host}:{self.port}/{self.database}/v1/reports?all_reports=true&superset=true&use_timezone=true"
             response = requests.get(
                 url,
                 headers=headers,
