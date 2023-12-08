@@ -84,7 +84,6 @@ class NglsReports:
             return
         reports_df = pd.json_normalize(response.json())
         # filter out the Gemma and TDoS reports
-        # TODO: create a generic filter to separate what is Gemma, TDoS...
         reports_df = reports_df[(reports_df["report.category"] == "Gemma") 
                                 | (reports_df["report.category"] == "Tdos")]
         self.table_names = list(reports_df["table_name"].values)
