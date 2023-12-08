@@ -84,7 +84,8 @@ class NglsReports:
             return
         reports_df = pd.json_normalize(response.json())
         # filter out the Gemma reports
-        reports_df = reports_df[reports_df["report.category"] == "Gemma"]
+        reports_df = reports_df[reports_df["report.category"] == "Gemma"
+                                | reports_df["report.category"] == "Tdos"]
         self.table_names = list(reports_df["table_name"].values)
         table_ids = dict(
             reports_df[["table_name", "report.id"]]
