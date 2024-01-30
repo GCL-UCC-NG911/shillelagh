@@ -224,6 +224,7 @@ class NglsReports:
         if not self.columns_dicts[tablename]:
             columns_dict = {}
             for column in self.columns[tablename]:
+                _logger.info(f"Columns table name test: { self.columns[tablename] }")
                 field = column.get("field", {})
                 class_name = field.get("class")
                 filters = field.get("filters", [])
@@ -231,7 +232,7 @@ class NglsReports:
                     [FILTER_NAME_TO_FILTER[x] for x in filters] if filters else None
                 )
                 _logger.info(f"Class name test: { CLASS_NAME_TO_CLASS[class_name] }")
-                _logger.info(f"Columns: { column }")
+                _logger.info(f"Columns: { self.columns }")
                 columns_dict[column["column_name"]] = CLASS_NAME_TO_CLASS[class_name](
                     filters=filters,
                     order=field.get("order", Order.NONE),
