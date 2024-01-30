@@ -230,6 +230,7 @@ class NglsReports:
                 filters = (
                     [FILTER_NAME_TO_FILTER[x] for x in filters] if filters else None
                 )
+                _logger.info(f"Class name test: {CLASS_NAME_TO_CLASS[class_name]}")
                 columns_dict[column["column_name"]] = CLASS_NAME_TO_CLASS[class_name](
                     filters=filters,
                     order=field.get("order", Order.NONE),
