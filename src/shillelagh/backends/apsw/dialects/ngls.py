@@ -190,6 +190,7 @@ class NglsReports:
             verify=self.verify,
             timeout=TIMEOUT,
         )
+        _logger.info(f"RESPONSE: {response}")
         if response.status_code != 200:
             _logger.warning(f"ngls response code: {response.status_code}")
             return None
