@@ -180,6 +180,8 @@ class NglsReports:
         url = self.url(tablename)
         if not params:
             params = {"superset": "true"}
+            if tablename == 'test':
+                params = {"superset": "true", "from": "2023-11-07T00:00:00.000Z", "to": "2024-01-30T23:59:00.000Z"}
         else:
             params["superset"] = "true"
         _logger.info(f"Get report from NGLS: GET {url} {json.dumps(params)}")
