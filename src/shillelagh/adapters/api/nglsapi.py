@@ -102,6 +102,7 @@ class NglsAPI(Adapter):
                     "Error while getting data from ngls-reporting service",
                 )
             data = result.get("data", [])
+        _logger.info(f"###### PARAMETROS {params})")
 
         _logger.info(f"Got {len(data)} rows for {self.table}")
         for record in data:

@@ -176,9 +176,9 @@ class NglsReports:
 
     def get(self, tablename, params):
         """Perform a GET request to the reporting service."""
-        _logger.info(f"Table name {tablename}")
         headers = {"X-NGLS-API-Key": self.api_key}
         url = self.url(tablename)
+        # _TODO: Review params for reporting service. 
         if not params:
             params = {"superset": "true"}
         else:
