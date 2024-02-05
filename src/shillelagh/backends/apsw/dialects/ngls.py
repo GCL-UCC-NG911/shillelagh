@@ -183,8 +183,8 @@ class NglsReports:
             params = {"superset": "true"}
         else:
             params["superset"] = "true"
-        if tablename == 'test':
-            params = {"format": "json", "from": "2023-11-07T00:00:00.000Z", "to": "2024-01-30T23:59:00.000Z"}
+        if tablename == 'technical_summary':
+            params = {"format": "json", "for": "30d", "call_id": "urn:nena:uid:callid:4e48b810459a7e435df0:caloesbcfi.esinet.com"}
         _logger.info(f"Get report from NGLS: GET {url} {json.dumps(params)}")
         response = requests.get(
             url,
