@@ -56,7 +56,8 @@ class NglsReports:
         self.port = url.port
         self.database = url.database
         self.api_key = os.getenv("NGLS_API_KEY")
-        self.verify = os.getenv("CA_CERT_FILE", "/app/certs/ca.crt")
+        # self.verify = os.getenv("CA_CERT_FILE", "/app/certs/ca.crt")
+        self.verify = False
         self.table_names = []
         self.columns = {}
         self.columns_dicts = {}
