@@ -68,6 +68,7 @@ class NglsReports:
             headers = {"X-NGLS-API-Key": self.api_key}
             # pylint: disable=line-too-long
             url = f"{self.url()}?all_reports=true&superset=true"
+            _logger.debug(self.verify)
             response = requests.get(
                 url,
                 headers=headers,
