@@ -145,7 +145,7 @@ class NglsReports:
         self.table_names.append("direction_tags")
         self.columns["direction_tags"] = [
             {
-                "column_name": "direction",
+                "column_name": "direction_tag",
                 "name": "Direction",
                 "type": "TEXT",
                 "field": {"class": "String"},
