@@ -141,6 +141,17 @@ class NglsReports:
             },
         ]
         self.columns_dicts["call_types"] = None
+        # add hard-coded table for direction tags.
+        self.table_names.append("direction_tags")
+        self.columns["direction_tags"] = [
+            {
+                "column_name": "direction_tag",
+                "name": "Direction",
+                "type": "TEXT",
+                "field": {"class": "String"},
+            },
+        ]
+        self.columns_dicts["direction_tags"] = None
         # add hard-coded table for sequence numbers.
         self.table_names.append("seq_nrs")
         self.columns["seq_nrs"] = [
