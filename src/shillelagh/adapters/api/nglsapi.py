@@ -80,7 +80,7 @@ class NglsAPI(Adapter):
                 ["AAC Notice"],
                 ["monitoringCall"],
             ],
-            "direction_tags": [["incoming"], ["outgoing"]],
+            "direction_tags": [["Inbound"], ["Outbound"]],
             # fmt: on
             "seq_nrs": [[str(x).zfill(4)] for x in range(1, 1001)],
         }
