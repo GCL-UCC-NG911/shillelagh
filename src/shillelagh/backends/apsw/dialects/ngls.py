@@ -16,8 +16,8 @@ from sqlalchemy.pool.base import _ConnectionFairy
 
 from shillelagh.backends.apsw.dialects.base import APSWDialect
 from shillelagh.fields import DateTime, Field, Float, Integer, String
-# from shillelagh.filters import Equal, In, Like, NotEqual, Range
-from shillelagh.filters import Equal, Like, NotEqual, Range
+from shillelagh.filters import Equal, In, Like, NotEqual, Range
+# from shillelagh.filters import Equal, Like, NotEqual, Range
 from shillelagh.typing import Order
 
 # Field Class from interface to Field class name
@@ -33,7 +33,7 @@ FILTER_NAME_TO_FILTER = {
     "Like": Like,
     "NotEqual": NotEqual,
     "Range": Range,
-    # "In": In,
+    "In": In,
 }
 # Default timeout for reporting API requests (in seconds)
 TIMEOUT = 30
@@ -240,6 +240,9 @@ class NglsReports:
                 field = column.get("field", {})
                 class_name = field.get("class")
                 filters = field.get("filters", [])
+                _logger.info("##### Kap ----->")
+                _logger.info(filters)
+                _logger.info("##### KAP <-----")
                 filters = (
                     [FILTER_NAME_TO_FILTER[x] for x in filters] if filters else None
                 )

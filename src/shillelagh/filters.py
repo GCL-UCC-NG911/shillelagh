@@ -22,7 +22,7 @@ class Operator(Enum):
     LIKE = "LIKE"
     LIMIT = "LIMIT"
     OFFSET = "OFFSET"
-    # IN = "IN"
+    IN = "IN"
 
 
 class Side(Enum):
