@@ -74,11 +74,13 @@ class NglsAPI(Adapter):
             "call_types": [
                 ["911"],
                 ["10-digit"],
-                ["admin"],
-                ["consultation"],
                 ["AAC ReCall"],
                 ["AAC Notice"],
+                ["admin"],
+                ["consultation"],
+                ["Internal"],
                 ["monitoringCall"],
+                ["Outgoing"],
             ],
             "direction_tags": [["Inbound"], ["Outbound"]],
             # fmt: on
