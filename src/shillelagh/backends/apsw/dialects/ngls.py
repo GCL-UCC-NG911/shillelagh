@@ -176,10 +176,10 @@ class NglsReports:
         self.columns_dicts["agencies"] = None
         _logger.info(f"table_names={self.table_names}")
         # add hard-coded table for timezone options.
-        self.table_names.append("timezone")
-        self.columns["timezone"] = [
+        self.table_names.append("time_zone")
+        self.columns["time_zone"] = [
             {
-                "column_name": "timezone",
+                "column_name": "time_zone",
                 "name": "Timezone",
                 "type": "TEXT",
                 "field": {"class": "String"},
