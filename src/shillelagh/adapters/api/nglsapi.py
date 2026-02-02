@@ -83,6 +83,7 @@ class NglsAPI(Adapter):
                 ["Outgoing"],
             ],
             "direction_tags": [["Inbound"], ["Outbound"]],
+            "time_zone": [["UTC"], ["US/Eastern"], ["US/Central"], ["US/Mountain"], ["US/Pacific"]],
             # fmt: on
             "seq_nrs": [[str(x).zfill(4)] for x in range(1, 1001)],
         }
