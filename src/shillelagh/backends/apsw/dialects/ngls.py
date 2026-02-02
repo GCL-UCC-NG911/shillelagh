@@ -184,7 +184,7 @@ class NglsReports:
                 "field": {"class": "String"},
             },
         ]
-        self.columns_dicts["timezone"] = None
+        self.columns_dicts["time_zone"] = None
         _logger.info(f"table_names={self.table_names}")
     def has_table_name(self, tablename) -> bool:
         """Return True/False whether the tablename is present in the tables list."""
