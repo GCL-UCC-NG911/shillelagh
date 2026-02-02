@@ -276,27 +276,34 @@ class CSVFile(Adapter):
 
         This method will get rid of deleted rows in the files.
         """
-        if not self.local:
-            self.path.unlink()
-            return
+        try:
+            if not self.local:
+                self.path.unlink()
+                return
 
-        if not self.modified:
-            return
+            if not self.modified:
+                return
 
-        # garbage collect -- should we sort the data according to the initial sort
-        # order when writing to the new file?
-        with open(self.path, encoding="utf-8") as csvfile:
-            reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
-            column_names = next(reader)
-            data = (row for i, row in zip(self.row_id_manager, reader) if i != -1)
+            # garbage collect -- should we sort the data according to the initial sort
+            # order when writing to the new file?
+            with open(self.path, encoding="utf-8") as csvfile:
+                reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
+                column_names = next(reader)
+                data = (row for i, row in zip(self.row_id_manager, reader) if i != -1)
 
-            with open(self.path.with_suffix(".csv.bak"), "w", encoding="utf-8") as copy:
-                writer = csv.writer(copy, quoting=csv.QUOTE_NONNUMERIC)
-                writer.writerow(column_names)
-                writer.writerows(data)
+                with open(
+                    self.path.with_suffix(".csv.bak"),
+                    "w",
+                    encoding="utf-8",
+                ) as copy:
+                    writer = csv.writer(copy, quoting=csv.QUOTE_NONNUMERIC)
+                    writer.writerow(column_names)
+                    writer.writerows(data)
 
-        os.replace(self.path.with_suffix(".csv.bak"), self.path)
-        self.modified = False
+            os.replace(self.path.with_suffix(".csv.bak"), self.path)
+            self.modified = False
+        finally:
+            super().close()
 
     def drop_table(self) -> None:
         self.path.unlink()

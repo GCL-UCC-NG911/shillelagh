@@ -10,6 +10,7 @@ from typing import Any, Dict, Iterator, List, Optional, Tuple, cast
 
 import dateutil.tz
 from google.auth.transport.requests import AuthorizedSession
+from google.auth.credentials import Credentials
 from requests import Session
 
 from shillelagh.adapters.api.gsheets.lib import (
@@ -196,10 +197,16 @@ class GSheetsAPI(Adapter):  # pylint: disable=too-many-instance-attributes
             _logger.warning("Could not determine sheet name!")
 
     def _get_session(self) -> Session:
-        return cast(
-            Session,
-            AuthorizedSession(self.credentials) if self.credentials else Session(),
-        )
+        # Only create an AuthorizedSession when we actually have a
+        # google.auth.credentials.Credentials instance. Some callers or tests
+        # may accidentally set `credentials` to a string (eg. a filename or
+        # env var) which would cause google-auth to fail during request
+        # handling/atexit. In that case fall back to an unauthenticated
+        # `requests.Session`.
+        if isinstance(self.credentials, Credentials):
+            return cast(Session, AuthorizedSession(self.credentials))
+
+        return Session()
 
     def get_metadata(self) -> Dict[str, Any]:
         """
@@ -670,52 +677,56 @@ class GSheetsAPI(Adapter):  # pylint: disable=too-many-instance-attributes
         to the sheet.
         """
         if not self.modified or self._sync_mode != SyncMode.BATCH:
+            super().close()
             return
 
-        values = self._get_values()
-        if not values:
-            raise InternalError("An unexpected error happened")
+        try:
+            values = self._get_values()
+            if not values:
+                raise InternalError("An unexpected error happened")
 
-        # Pad values. This ensures that rows are padded to the right with
-        # empty strings, so they override any underlying cells when the
-        # updated sheet is pushed. Similarly, append dummy rows so that if
-        # the number of rows is smaller than the original the old data gets
-        # erased by the new one.
-        number_of_columns = max(len(row) for row in values)
-        dummy_row = [""] * number_of_columns
-        values = [[*row, *([""] * (number_of_columns - len(row)))] for row in values]
-        values.extend([dummy_row] * (self._original_rows - len(values)))
+            # Pad values. This ensures that rows are padded to the right with
+            # empty strings, so they override any underlying cells when the
+            # updated sheet is pushed. Similarly, append dummy rows so that if
+            # the number of rows is smaller than the original the old data gets
+            # erased by the new one.
+            number_of_columns = max(len(row) for row in values)
+            dummy_row = [""] * number_of_columns
+            values = [[*row, *([""] * (number_of_columns - len(row)))] for row in values]
+            values.extend([dummy_row] * (self._original_rows - len(values)))
 
-        _logger.info("Pushing pending changes to the spreadsheet")
-        session = self._get_session()
-        range_ = f"{self._sheet_name}"
-        body = {
-            "range": range_,
-            "majorDimension": "ROWS",
-            "values": values,
-        }
-        url = (
-            "https://sheets.googleapis.com/v4/spreadsheets/"
-            f"{self._spreadsheet_id}/values/{range_}"
-        )
-        params = {"valueInputOption": "USER_ENTERED"}
+            _logger.info("Pushing pending changes to the spreadsheet")
+            session = self._get_session()
+            range_ = f"{self._sheet_name}"
+            body = {
+                "range": range_,
+                "majorDimension": "ROWS",
+                "values": values,
+            }
+            url = (
+                "https://sheets.googleapis.com/v4/spreadsheets/"
+                f"{self._spreadsheet_id}/values/{range_}"
+            )
+            params = {"valueInputOption": "USER_ENTERED"}
 
-        # Log the URL. We can't use a prepared request here to extract the URL because
-        # it doesn't work with ``AuthorizedSession``.
-        query_string = urllib.parse.urlencode(params)
-        _logger.info("PUT %s?%s", url, query_string)
-        _logger.debug(body)
+            # Log the URL. We can't use a prepared request here to extract the URL because
+            # it doesn't work with ``AuthorizedSession``.
+            query_string = urllib.parse.urlencode(params)
+            _logger.info("PUT %s?%s", url, query_string)
+            _logger.debug(body)
 
-        response = session.put(url, json=body, params=params)
-        payload = response.json()
-        _logger.debug(payload)
-        if "error" in payload:
-            message = payload["error"]["message"]
-            _logger.warning("Unable to commit batch changes: %s", message)
-            raise ProgrammingError(message)
+            response = session.put(url, json=body, params=params)
+            payload = response.json()
+            _logger.debug(payload)
+            if "error" in payload:
+                message = payload["error"]["message"]
+                _logger.warning("Unable to commit batch changes: %s", message)
+                raise ProgrammingError(message)
 
-        self.modified = False
-        _logger.info("Success!")
+            self.modified = False
+            _logger.info("Success!")
+        finally:
+            super().close()
 
     def drop_table(self) -> None:
         """

@@ -16,6 +16,8 @@ import requests
 import requests_mock
 from pytest_mock import MockerFixture
 
+from google.auth.credentials import Credentials
+
 from shillelagh.adapters.api.gsheets.adapter import GSheetsAPI
 from shillelagh.backends.apsw.db import connect
 from shillelagh.exceptions import (
@@ -678,16 +680,17 @@ def test_get_session(mocker: MockerFixture) -> None:
     mock_authorized_session.reset_mock()
     mock_session.reset_mock()
 
+    mock_credentials = mock.create_autospec(Credentials, instance=True)
     mocker.patch(
         "shillelagh.adapters.api.gsheets.adapter.get_credentials",
-        return_value="SECRET",
+        return_value=mock_credentials,
     )
     gsheets_adapter = GSheetsAPI(
         "https://docs.google.com/spreadsheets/d/1",
         service_account_info={"secret": "XXX"},
         subject="user@example.com",
     )
-    assert gsheets_adapter.credentials == "SECRET"
+    assert gsheets_adapter.credentials == mock_credentials
     gsheets_adapter._get_session()
     mock_authorized_session.assert_called()
     mock_session.assert_not_called()

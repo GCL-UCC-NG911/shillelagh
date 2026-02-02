@@ -28,7 +28,7 @@ class FakeAdapterWithDateTime(FakeAdapter):
     data: List[Row] = []
 
     def __init__(self):  # pylint: disable=super-init-not-called
-        pass
+        self._closed = False
 
 
 class ReadOnlyAdapter(Adapter):  # pylint: disable=abstract-method
