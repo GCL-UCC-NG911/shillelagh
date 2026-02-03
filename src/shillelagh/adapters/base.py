@@ -59,6 +59,7 @@ class Adapter:
     def __init__(self, *args: Any, **kwargs: Any):  # pylint: disable=unused-argument
         # ensure ``self.close`` gets called before GC
         atexit.register(self.close)
+        self._closed = False
 
     @staticmethod
     def supports(uri: str, fast: bool = True, **kwargs: Any) -> Optional[bool]:
@@ -238,6 +239,10 @@ class Adapter:
         Adapters should use this method to perform any pending changes when the
         connection is closed.
         """
+        if self._closed:
+            return
+        self._closed = True
+        atexit.unregister(self.close)
 
     def drop_table(self) -> None:
         """
