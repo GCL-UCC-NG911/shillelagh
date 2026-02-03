@@ -174,7 +174,6 @@ class NglsReports:
             },
         ]
         self.columns_dicts["agencies"] = None
-        _logger.info(f"table_names={self.table_names}")
         # add hard-coded table for timezone options.
         self.table_names.append("time_zone")
         self.columns["time_zone"] = [
@@ -185,7 +184,8 @@ class NglsReports:
                 "field": {"class": "String"},
             },
         ]
-        self.columns_dicts["timezone"] = None 
+        self.columns_dicts["time_zone"] = None
+        _logger.info(f"table_names={self.table_names}")
     def has_table_name(self, tablename) -> bool:
         """Return True/False whether the tablename is present in the tables list."""
         return tablename in self.table_names
