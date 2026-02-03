@@ -1,5 +1,7 @@
+# fmt: off
 # pylint: disable=too-many-instance-attributes, logging-fstring-interpolation, broad-except, abstract-method
 # NGLS exclusive
+
 """
 A SQLAlchemy Dialect for NGLS.
 """
@@ -186,6 +188,7 @@ class NglsReports:
         ]
         self.columns_dicts["time_zone"] = None
         _logger.info(f"table_names={self.table_names}")
+
     def has_table_name(self, tablename) -> bool:
         """Return True/False whether the tablename is present in the tables list."""
         return tablename in self.table_names
