@@ -1,5 +1,7 @@
 # pylint: disable=too-many-instance-attributes, logging-fstring-interpolation, broad-except, abstract-method
 # NGLS exclusive
+# fmt: off
+
 """
 A SQLAlchemy Dialect for NGLS.
 """
