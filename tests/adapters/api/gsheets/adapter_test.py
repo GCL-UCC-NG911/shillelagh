@@ -3,6 +3,7 @@ Tests for shillelagh.adapters.api.gsheets.adapter.
 """
 
 # pylint: disable=too-many-lines, protected-access, c-extension-no-member, redefined-outer-name, line-too-long
+# isort: skip_file
 
 import datetime
 import json

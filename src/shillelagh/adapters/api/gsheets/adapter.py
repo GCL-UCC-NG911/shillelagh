@@ -1,4 +1,5 @@
 # pylint: disable=fixme
+# isort: skip_file
 """
 Google Sheets adapter.
 """
