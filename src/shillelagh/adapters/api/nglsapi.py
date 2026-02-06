@@ -109,7 +109,7 @@ class NglsAPI(Adapter):
                 raise InternalError(
                     "Error while getting data from ngls-reporting service",
                 )
-            data = [[x.get("displayName", x.get("id"))] for x in result]
+            data = [[x.get("displayName") or x.get("id")] for x in result]
         else:
             params = self.set_params(bounds)
             result = self.nglsreports.get(self.table, params)
