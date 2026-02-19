@@ -131,6 +131,28 @@ class NglsReports:
                 "field": {"class": "String"},
             },
         ]
+        # add table for agent ids.
+        self.table_names.append("agent_ids")
+        self.columns["agent_ids"] = [
+            {
+                "column_name": "agent_id",
+                "name": "Agent ID",
+                "type": "TEXT",
+                "field": {"class": "String"},
+            },
+        ]
+        self.columns_dicts["agent_ids"] = None
+        # add table for agent positions.
+        self.table_names.append("agent_positions")
+        self.columns["agent_positions"] = [
+            {
+                "column_name": "agent_position",
+                "name": "Agent Position",
+                "type": "TEXT",
+                "field": {"class": "String"},
+            },
+        ]
+        self.columns_dicts["agent_positions"] = None
         self.columns_dicts["abandoned_tags"] = None
         # add hard-coded table for call types.
         self.table_names.append("call_types")
