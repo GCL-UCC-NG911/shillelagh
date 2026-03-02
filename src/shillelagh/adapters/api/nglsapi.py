@@ -66,7 +66,7 @@ class NglsAPI(Adapter):
         self.table = table
         self.nglsreports = NglsReports.get_instance(URL.create(url))
         self.get_static_data_table = {
-            "intervals": [["hour"], ["day"], ["month"]],
+            "intervals": [["hour"], ["day"], ["weekday"], ["month"]],
             "abandoned_tags": [["included"], ["excluded"], ["only"]],
             # Add additional call types provided by First Response solution:
             # AAC ReCall, AAC Notice, monitoringCall
