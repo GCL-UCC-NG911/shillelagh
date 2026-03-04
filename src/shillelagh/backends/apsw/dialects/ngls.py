@@ -121,6 +121,17 @@ class NglsReports:
             },
         ]
         self.columns_dicts["intervals"] = None
+        # add hard-coded table for intervals with the weekday option.
+        self.table_names.append("intervals_weekday")
+        self.columns["intervals_weekday"] = [
+            {
+                "column_name": "intervals_weekday",
+                "name": "Intervals with weekday option",
+                "type": "TEXT",
+                "field": {"class": "String"},
+            },
+        ]
+        self.columns_dicts["intervals_weekday"] = None
         # add hard-coded table for abandoned tags.
         self.table_names.append("abandoned_tags")
         self.columns["abandoned_tags"] = [
