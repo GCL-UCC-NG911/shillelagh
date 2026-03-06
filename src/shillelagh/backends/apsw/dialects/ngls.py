@@ -64,7 +64,7 @@ class NglsReports:
         self.columns_dicts = {}
         self.table_ids = {}
 
-    def get_table_names(self):
+    def get_table_names(self): # pylint: disable=too-many-statements
         """Get a list of all NGLS reports and populate a Pandas table."""
         try:
             headers = {"X-NGLS-API-Key": self.api_key}
