@@ -365,10 +365,10 @@ class NglsDialect(APSWDialect):
                 verify=self.nglsreports.verify,
                 timeout=TIMEOUT,
             )
-            if response.status_code == 200:
-                return True
-            _logger.info(f"Ping returned response code: {response.status_code}")
-            return response.status_code == 200
+            if response.status_code != 200:
+                _logger.warning(f"Ping returned response code: {response.status_code}")
+                return False
+            return True
         return False
 
     def get_table_names(
