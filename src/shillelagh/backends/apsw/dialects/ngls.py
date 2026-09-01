@@ -305,7 +305,12 @@ class NglsReports:
     def get_instance(url: URL):
         """Return an instance of NGLSReports."""
         timestamp = int(time.time())
-        if not NglsReports.instance or NglsReports.timestamp < timestamp:
+
+        if (
+            NglsReports.instance is None
+            or NglsReports.timestamp is None
+            or NglsReports.timestamp < timestamp
+        ):
             _logger.info("Instantiating NglsReports instance")
             NglsReports.instance = NglsReports(url)
             NglsReports.instance.get_table_names()

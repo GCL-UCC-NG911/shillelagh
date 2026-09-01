@@ -182,7 +182,7 @@ def test_credentials() -> None:
     cursor._cursor.execute.side_effect = [
         "",
         apsw.SQLError(
-            "no such table: https://docs.google.com/spreadsheets/d/1",
+            "SQLError: no such table: https://docs.google.com/spreadsheets/d/1",
         ),
         "",
         "",
@@ -215,7 +215,7 @@ def test_credentials() -> None:
     adc_cursor._cursor.execute.side_effect = [
         "",
         apsw.SQLError(
-            "no such table: https://docs.google.com/spreadsheets/d/1",
+            "SQLError: no such table: https://docs.google.com/spreadsheets/d/1",
         ),
         "",
         "",
