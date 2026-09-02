@@ -343,7 +343,7 @@ def test_transaction(registry: AdapterLoader) -> None:
     cursor._cursor = mock.MagicMock()
     cursor._cursor.execute.side_effect = [
         "",
-        apsw.SQLError("SQLError: no such table: dummy://"),
+        apsw.SQLError("no such table: dummy://"),
         "",
         "",
         "",
