@@ -305,7 +305,12 @@ class NglsReports:
     def get_instance(url: URL):
         """Return an instance of NGLSReports."""
         timestamp = int(time.time())
-        if not NglsReports.instance or NglsReports.timestamp < timestamp:
+
+        if (
+            NglsReports.instance is None
+            or NglsReports.timestamp is None
+            or NglsReports.timestamp < timestamp
+        ):
             _logger.info("Instantiating NglsReports instance")
             NglsReports.instance = NglsReports(url)
             NglsReports.instance.get_table_names()
@@ -365,10 +370,10 @@ class NglsDialect(APSWDialect):
                 verify=self.nglsreports.verify,
                 timeout=TIMEOUT,
             )
-            if response.status_code == 200:
-                return True
-            _logger.info(f"Ping returned response code: {response.status_code}")
-            return response.status_code == 200
+            if response.status_code != 200:
+                _logger.warning(f"Ping returned response code: {response.status_code}")
+                return False
+            return True
         return False
 
     def get_table_names(
