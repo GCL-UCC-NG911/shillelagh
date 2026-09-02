@@ -69,7 +69,7 @@ sqlite_version_info = tuple(
     int(number) for number in apsw.sqlitelibversion().split(".")
 )
 
-NO_SUCH_TABLE = "no such table: "
+NO_SUCH_TABLE = "SQLError: no such table: "
 DEFAULT_SCHEMA = "main"
 
 CURSOR_METHOD = TypeVar("CURSOR_METHOD", bound=Callable[..., Any])
